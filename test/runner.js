@@ -81,15 +81,15 @@ async function runTests() {
 
   await test('Login with demo user credentials', async () => {
     const res = await request('POST', '/api/auth/login', {}, {
-      email: 'admin@cinedata.io',
-      password: 'password123'
+      email: 'izaya@gmail.com',
+      password: '123456'
     });
     if (res.status !== 200 || !res.body.success) throw new Error(`Login failed with status ${res.status}`);
   });
 
   await test('Login with wrong password should return 401', async () => {
     const res = await request('POST', '/api/auth/login', {}, {
-      email: 'admin@cinedata.io',
+      email: 'izaya@gmail.com',
       password: 'wrong_password_999'
     });
     if (res.status !== 401 || res.body.success) throw new Error(`Expected status 401, got ${res.status}`);
