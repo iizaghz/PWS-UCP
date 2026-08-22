@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineData API · High-Performance Movie Metadata SaaS</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <!-- Auth Screen (Login / Register) -->
+  <div id="auth-screen" class="auth-wrapper">
+    <div class="auth-card">
+      <div class="brand-logo" style="justify-content: center; margin-bottom: 1.5rem;">
+        <img src="/logo.svg" alt="CineData Logo" style="width: 34px; height: 34px; border-radius: 8px;">
+        <span class="brand-title" style="font-size: 1.35rem;">CineData Platform</span>
+      </div>
+      <h2 id="auth-title" class="auth-title">Developer Sign In</h2>
+      <p id="auth-subtitle" class="auth-subtitle">Access your API credentials, sandbox, and telemetry</p>
+
+      <form id="auth-form">
+        <div class="form-group" id="name-group" style="display: none;">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="auth-name" class="form-input" placeholder="Developer Name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="auth-email" class="form-input" placeholder="developer@cinedata.io" required value="admin@cinedata.io">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="auth-password" class="form-input" placeholder="••••••••" required value="password123">
+        </div>
+        <button type="submit" id="auth-submit-btn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 0.65rem; margin-top: 1rem;">Authenticate</button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--color-text-muted);">
+        <span id="auth-toggle-msg">Don't have an account?</span>
+        <a href="#" id="auth-toggle-btn" style="font-weight: 600; margin-left: 0.25rem;">Create Account</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Container -->
+  <div id="app-screen" class="app-container" style="display: none;">
+    <!-- N3 Side-Rail Sidebar -->
+    <aside class="sidebar">
+      <div class="brand-logo">
+        <img src="/logo.svg" alt="CineData Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+        <span class="brand-title">CineData</span>
+      </div>
+
+      <ul class="nav-list">
+        <li class="nav-item active" data-tab="tab-overview">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          Overview
+        </li>
+        <li class="nav-item" data-tab="tab-keys">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+          API Keys
+        </li>
+        <li class="nav-item" data-tab="tab-catalog">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+          Endpoints
+        </li>
+        <li class="nav-item" data-tab="tab-tryapi">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Playground
+        </li>
+        <li class="nav-item" data-tab="tab-docs">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          SDK & Docs
+        </li>
+        <li class="nav-item" data-tab="tab-profile">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          Account
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div id="user-avatar" class="user-avatar">D</div>
+          <div class="user-info">
+            <span id="user-display-name" class="user-name">Developer</span>
+            <span id="user-display-email" class="user-email">dev@cinedata.io</span>
+          </div>
+        </div>
+        <button id="logout-btn" class="btn btn-danger" style="width: 100%; justify-content: center; margin-top: 0.75rem;">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Tab 1: Overview Telemetry -->
+      <section id="tab-overview" class="tab-pane">
+        <div class="top-bar">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <h1 class="page-title">Developer Telemetry</h1>
+              <span class="badge badge-success" style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.7rem; padding: 0.15rem 0.5rem;">
+                <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--color-accent-emerald); display: inline-block; animation: pulse 1.5s infinite;"></span>
+                LIVE METRICS
+              </span>
+            </div>
+            <p class="page-subtitle">Real-time API traffic metrics, latency, and operational status</p>
+          </div>
+          <button class="btn btn-primary" onclick="switchTab('tab-keys')">+ Create API Key</button>
+        </div>
+
+        <div class="grid-stats">
+          <div class="stat-card">
+            <div class="stat-header">Total Requests</div>
+            <div id="stat-total-requests" class="stat-value">0</div>
+            <div class="stat-subtext">Cumulative request count</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">Active API Keys</div>
+            <div id="stat-active-keys" class="stat-value">0</div>
+            <div class="stat-subtext">Provisioned credentials</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">Success Ratio</div>
+            <div id="stat-success-rate" class="stat-value">100%</div>
+            <div class="stat-subtext">2xx Successful responses</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">Avg Response Latency</div>
+            <div id="stat-avg-time" class="stat-value">0 ms</div>
+            <div class="stat-subtext">Server response time</div>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <div class="card-title">Recent API Requests (Stream)</div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Endpoint</th>
+                  <th>Status</th>
+                  <th>Latency</th>
+                  <th>Key Prefix</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="overview-usage-tbody">
+                <tr><td colspan="6" style="text-align:center;">Loading live telemetry...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 2: API Keys -->
+      <section id="tab-keys" class="tab-pane" style="display: none;">
+        <div class="top-bar">
+          <div>
+            <h1 class="page-title">API Keys Vault</h1>
+            <p class="page-subtitle">Manage SHA-256 hashed secret keys for API authentication</p>
+          </div>
+          <button class="btn btn-primary" id="open-create-key-modal">+ Generate Secret Key</button>
+        </div>
+
+        <div class="card-box">
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Key Name</th>
+                  <th>Prefix</th>
+                  <th>Environment</th>
+                  <th>Status</th>
+                  <th>Expires</th>
+                  <th>Last Active</th>
+                  <th>Manage</th>
+                </tr>
+              </thead>
+              <tbody id="keys-tbody">
+                <tr><td colspan="7" style="text-align:center;">Loading credentials...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 3: API Endpoint Catalog -->
+      <section id="tab-catalog" class="tab-pane" style="display: none;">
+        <div class="top-bar">
+          <div>
+            <h1 class="page-title">REST API Endpoints</h1>
+            <p class="page-subtitle">Standard JSON resources with filtering, sorting, and pagination</p>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <div id="catalog-list" style="display: flex; flex-direction: column; gap: 1rem;">
+            <!-- Rendered catalog items -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 4: Component Playground (Try API) -->
+      <section id="tab-tryapi" class="tab-pane" style="display: none;">
+        <div class="top-bar">
+          <div>
+            <h1 class="page-title">API Interactive Sandbox</h1>
+            <p class="page-subtitle">Execute live HTTP requests against the CineData REST API</p>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <form id="try-api-form">
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; margin-bottom: 1rem;">
+              <div>
+                <label class="form-label">API Key Header (x-api-key)</label>
+                <input type="text" id="try-api-key" class="form-input" placeholder="cd_live_xxxxxxxxxxxxxxxx" value="cd_live_demo1234567890abcdef">
+              </div>
+              <div>
+                <label class="form-label">Target Resource Endpoint</label>
+                <select id="try-endpoint" class="form-select">
+                  <option value="/api/v1/movies">GET /api/v1/movies (List Movies)</option>
+                  <option value="/api/v1/movies/1">GET /api/v1/movies/1 (Movie Detail by ID)</option>
+                  <option value="/api/v1/movies/slug/inception">GET /api/v1/movies/slug/inception (Movie by Slug)</option>
+                  <option value="/api/v1/genres">GET /api/v1/genres (List All Genres)</option>
+                  <option value="/api/v1/people">GET /api/v1/people (List Cast & Crew)</option>
+                  <option value="/api/v1/companies">GET /api/v1/companies (Production Companies)</option>
+                  <option value="/api/v1/movies/1/cast">GET /api/v1/movies/1/cast (Movie Cast)</option>
+                  <option value="/api/v1/movies/1/reviews">GET /api/v1/movies/1/reviews (Movie Reviews)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Query String Parameters (e.g. search=nolan&sort=-rating&limit=5)</label>
+              <input type="text" id="try-query-params" class="form-input" placeholder="search=nolan&sort=-rating&limit=5">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Execute Request</button>
+          </form>
+
+          <div id="try-response-section" style="margin-top: 1.5rem; display: none;">
+            <div style="display: flex; gap: 1rem; margin-bottom: 0.75rem; align-items: center;">
+              <span id="try-status-badge" class="badge badge-success">HTTP 200 OK</span>
+              <span id="try-time" style="color: var(--color-text-muted); font-size: 0.8rem; font-family: var(--font-mono);">Latency: 45 ms</span>
+            </div>
+            <pre><code id="try-response-code">{ "success": true }</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab 5: SDK & Documentation -->
+      <section id="tab-docs" class="tab-pane" style="display: none;">
+        <div class="top-bar">
+          <div>
+            <h1 class="page-title">Integration & SDK Reference</h1>
+            <p class="page-subtitle">Client integration patterns and rate limit specifications</p>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <h2 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Authentication Header</h2>
+          <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 0.75rem;">Supply your secret key in the request header:</p>
+          <pre><code>x-api-key: cd_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxx</code></pre>
+          
+          <h2 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">Rate Limit Tiers</h2>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="padding: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-paper-0);">
+              <div style="font-weight: 700; font-family: var(--font-mono);">Free Tier</div>
+              <div style="font-size: 1.3rem; font-weight: 700; color: var(--color-text-main); margin: 0.25rem 0;">100 / hr</div>
+              <div style="font-size: 0.8rem; color: var(--color-text-dim);">Standard sandbox key</div>
+            </div>
+            <div style="padding: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-paper-0);">
+              <div style="font-weight: 700; font-family: var(--font-mono); color: var(--color-accent-emerald);">Developer Tier</div>
+              <div style="font-size: 1.3rem; font-weight: 700; color: var(--color-text-main); margin: 0.25rem 0;">1,000 / hr</div>
+              <div style="font-size: 0.8rem; color: var(--color-text-dim);">Production applications</div>
+            </div>
+            <div style="padding: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-paper-0);">
+              <div style="font-weight: 700; font-family: var(--font-mono); color: var(--color-accent-cyan);">Enterprise Tier</div>
+              <div style="font-size: 1.3rem; font-weight: 700; color: var(--color-text-main); margin: 0.25rem 0;">10,000 / hr</div>
+              <div style="font-size: 0.8rem; color: var(--color-text-dim);">High throughput pipelines</div>
+            </div>
+          </div>
+
+          <h2 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">Example Request (cURL)</h2>
+          <pre><code>curl -X GET "http://localhost:3000/api/v1/movies?search=inception&sort=-rating" \
+  -H "x-api-key: cd_live_demo1234567890abcdef"</code></pre>
+        </div>
+      </section>
+
+      <!-- Tab 6: Profile Account -->
+      <section id="tab-profile" class="tab-pane" style="display: none;">
+        <div class="top-bar">
+          <div>
+            <h1 class="page-title">Account Profile</h1>
+            <p class="page-subtitle">Developer identity and organization context</p>
+          </div>
+        </div>
+
+        <div class="card-box" style="max-width: 550px;">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="profile-name" class="form-input" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="text" id="profile-email" class="form-input" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Account Created</label>
+            <input type="text" id="profile-joined" class="form-input" readonly>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Create API Key Modal -->
+  <div id="create-key-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">Generate New API Secret Key</div>
+      <form id="create-key-form">
+        <div class="form-group">
+          <label class="form-label">Key Identifier / Name</label>
+          <input type="text" id="key-name-input" class="form-input" placeholder="e.g. Production Backend" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Target Environment</label>
+          <select id="key-env-input" class="form-select">
+            <option value="live">Live (Production)</option>
+            <option value="developer">Developer</option>
+            <option value="test">Test / Sandbox</option>
+          </select>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeKeyModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Generate Secret Key</button>
+        </div>
+      </form>
+
+      <!-- Created Key Secret Display -->
+      <div id="key-created-alert" style="display: none; margin-top: 1.5rem; padding: 1rem; background: oklch(94% 0.03 162); border: 1px solid oklch(84% 0.08 162); border-radius: var(--radius-sm);">
+        <p style="color: var(--color-accent-emerald); font-weight: 700; margin-bottom: 0.35rem;">API Key Secret Provisioned</p>
+        <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 0.75rem;">Copy this secret key immediately. It is stored as a SHA-256 hash and cannot be retrieved later.</p>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <input type="text" id="new-key-secret" class="form-input" readonly style="font-family: var(--font-mono); color: var(--color-accent-cobalt);">
+          <button class="btn btn-secondary" onclick="copyNewKeySecret()">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

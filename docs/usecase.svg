@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="100%" height="100%">
+  <!-- Background -->
+  <rect width="900" height="650" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="450" y="45" font-family="'Space Grotesk', -apple-system, sans-serif" font-size="22" font-weight="bold" fill="#000000" text-anchor="middle">CineData API - Use Case Diagram</text>
+
+  <!-- System Boundary -->
+  <rect x="250" y="80" width="400" height="530" rx="8" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  <rect x="250" y="80" width="400" height="38" rx="8" fill="#000000"/>
+  <text x="450" y="105" font-family="'Space Grotesk', sans-serif" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">CineData SaaS System</text>
+
+  <!-- Actors -->
+  <!-- User / Developer -->
+  <g transform="translate(80, 240)">
+    <circle cx="30" cy="20" r="16" fill="none" stroke="#000000" stroke-width="2.5"/>
+    <line x1="30" y1="36" x2="30" y2="80" stroke="#000000" stroke-width="2.5"/>
+    <line x1="10" y1="50" x2="50" y2="50" stroke="#000000" stroke-width="2.5"/>
+    <line x1="30" y1="80" x2="10" y2="120" stroke="#000000" stroke-width="2.5"/>
+    <line x1="30" y1="80" x2="50" y2="120" stroke="#000000" stroke-width="2.5"/>
+    <text x="30" y="145" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="bold" fill="#000000" text-anchor="middle">Developer / User</text>
+  </g>
+
+  <!-- External App -->
+  <g transform="translate(760, 240)">
+    <rect x="0" y="20" width="60" height="60" rx="6" fill="#ffffff" stroke="#000000" stroke-width="2.5"/>
+    <text x="30" y="55" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="bold" fill="#000000" text-anchor="middle">&lt;App&gt;</text>
+    <text x="30" y="115" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="bold" fill="#000000" text-anchor="middle">External Client</text>
+  </g>
+
+  <!-- Use Cases (Ellipses) -->
+  <!-- UC1: Register & Login -->
+  <g transform="translate(290, 140)">
+    <ellipse cx="160" cy="25" rx="130" ry="22" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+    <text x="160" y="30" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="600" fill="#000000" text-anchor="middle">Register &amp; JWT Login</text>
+  </g>
+
+  <!-- UC2: Manage API Keys -->
+  <g transform="translate(290, 210)">
+    <ellipse cx="160" cy="25" rx="130" ry="22" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+    <text x="160" y="30" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="600" fill="#000000" text-anchor="middle">Create &amp; Revoke API Keys</text>
+  </g>
+
+  <!-- UC3: View Analytics -->
+  <g transform="translate(290, 280)">
+    <ellipse cx="160" cy="25" rx="130" ry="22" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+    <text x="160" y="30" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="600" fill="#000000" text-anchor="middle">View API Usage &amp; Analytics</text>
+  </g>
+
+  <!-- UC4: Test via Try API -->
+  <g transform="translate(290, 350)">
+    <ellipse cx="160" cy="25" rx="130" ry="22" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+    <text x="160" y="30" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="600" fill="#000000" text-anchor="middle">Test API via Interactive Playground</text>
+  </g>
+
+  <!-- UC5: Request Movie Data -->
+  <g transform="translate(290, 420)">
+    <ellipse cx="160" cy="25" rx="130" ry="22" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+    <text x="160" y="30" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="600" fill="#000000" text-anchor="middle">Fetch &amp; Search Movie Data</text>
+  </g>
+
+  <!-- UC6: Filter & Sort Movies -->
+  <g transform="translate(290, 490)">
+    <ellipse cx="160" cy="25" rx="130" ry="22" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+    <text x="160" y="30" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="600" fill="#000000" text-anchor="middle">Filter by Genre/Year/Rating</text>
+  </g>
+
+  <!-- Connectors -->
+  <line x1="140" y1="280" x2="310" y2="162" stroke="#000000" stroke-width="1.5"/>
+  <line x1="140" y1="290" x2="310" y2="232" stroke="#000000" stroke-width="1.5"/>
+  <line x1="140" y1="300" x2="310" y2="302" stroke="#000000" stroke-width="1.5"/>
+  <line x1="140" y1="310" x2="310" y2="372" stroke="#000000" stroke-width="1.5"/>
+
+  <line x1="760" y1="290" x2="590" y2="442" stroke="#000000" stroke-width="1.5"/>
+  <line x1="760" y1="300" x2="590" y2="512" stroke="#000000" stroke-width="1.5"/>
+</svg>
