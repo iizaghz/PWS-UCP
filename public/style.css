@@ -622,3 +622,86 @@ pre {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* SweetAlert2 Aesthetic Hallmark Custom Styling */
+div.swal2-container {
+  padding: 1rem;
+}
+
+div.swal2-popup {
+  width: 360px !important;
+  max-width: 90vw !important;
+  padding: 1.5rem !important;
+  border-radius: 12px !important;
+  font-family: var(--font-sans) !important;
+  background: var(--color-paper-0) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: 0 20px 35px -10px rgba(15, 23, 42, 0.15) !important;
+}
+
+div.swal2-icon {
+  width: 44px !important;
+  height: 44px !important;
+  margin: 0.5rem auto 1rem !important;
+}
+
+div.swal2-icon .swal2-icon-content {
+  font-size: 1.5rem !important;
+}
+
+h2.swal2-title {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  color: var(--color-text-main) !important;
+  padding: 0 !important;
+  margin-bottom: 0.5rem !important;
+  font-family: var(--font-display) !important;
+}
+
+div.swal2-html-container {
+  font-size: 0.88rem !important;
+  color: var(--color-text-muted) !important;
+  margin: 0.25rem 0 1.25rem !important;
+  line-height: 1.45 !important;
+}
+
+div.swal2-actions {
+  margin-top: 0.5rem !important;
+  gap: 0.5rem !important;
+}
+
+button.swal2-styled {
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  font-size: 0.82rem !important;
+  padding: 0.5rem 1.1rem !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: none !important;
+  transition: all var(--dur-fast) var(--ease-out) !important;
+}
+
+button.swal2-styled.swal2-confirm {
+  background-color: var(--color-ink) !important;
+  color: #ffffff !important;
+}
+
+button.swal2-styled.swal2-confirm:hover {
+  background-color: oklch(30% 0.02 250) !important;
+}
+
+button.swal2-styled.swal2-cancel {
+  background-color: var(--color-paper-2) !important;
+  color: var(--color-text-main) !important;
+}
+
+button.swal2-styled.swal2-cancel:hover {
+  background-color: var(--color-paper-3) !important;
+}
+
+/* Toast styling override */
+div.swal2-container.swal2-top-end > div.swal2-popup.swal2-toast {
+  width: auto !important;
+  padding: 0.75rem 1.25rem !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.12) !important;
+}
