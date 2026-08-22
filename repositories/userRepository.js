@@ -3,7 +3,7 @@ const db = require('../config/db');
 async function findByEmail(email) {
   const isPg = db.getIsConnected();
   if (isPg) {
-    const res = await db.query(`SELECT * FROM users WHERE email = $1 LIMIT 1;`, [email]);
+    const res = await db.query(`SELECT * FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1;`, [email]);
     return res.rows[0] || null;
   }
   return db.memoryDb.users.find(u => u.email.toLowerCase() === email.toLowerCase()) || null;
