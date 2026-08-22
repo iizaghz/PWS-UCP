@@ -355,7 +355,7 @@ async function loadKeys() {
         <td style="font-size:0.8rem; color:var(--text-dim);">${k.expires_at ? new Date(k.expires_at).toLocaleDateString() : 'Never'}</td>
         <td style="font-size:0.8rem; color:var(--text-dim);">${k.last_used_at ? new Date(k.last_used_at).toLocaleString() : 'Never'}</td>
         <td style="display: flex; gap: 0.35rem; align-items: center;">
-          <button class="btn btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="viewOrCopyKey('${k.id}', '${k.name.replace(/'/g, "\\'")}', '${k.key_prefix}')">👁️ Copy Key</button>
+          <button class="btn btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="viewOrCopyKey('${k.id}', '${k.name.replace(/'/g, "\\'")}', '${k.key_prefix}')">Copy Key</button>
           ${k.is_active ? `<button class="btn btn-danger" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="revokeKey(${k.id})">Revoke</button>` : ''}
           <button class="btn btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="deleteKey(${k.id})">Delete</button>
         </td>
@@ -380,13 +380,13 @@ function viewOrCopyKey(keyId, keyName, keyPrefix) {
 
   if (fullKey) {
     Swal.fire({
-      title: `🔑 ${keyName}`,
+      title: `${keyName}`,
       html: `
         <p style="font-size: 0.85rem; color: #666; margin-bottom: 0.75rem;">Berikut adalah API Key rahasia Anda:</p>
         <input type="text" id="swal-key-value" class="form-input" value="${fullKey}" readonly style="font-family: var(--font-mono); font-size: 0.9rem; text-align: center; color: var(--color-accent-cobalt); margin-bottom: 0.5rem; width: 100%;">
       `,
       showCancelButton: true,
-      confirmButtonText: '📋 Copy Secret Key',
+      confirmButtonText: 'Copy Secret Key',
       cancelButtonText: 'Tutup',
       confirmButtonColor: '#171717'
     }).then((result) => {
@@ -404,11 +404,11 @@ function viewOrCopyKey(keyId, keyName, keyPrefix) {
     });
   } else {
     Swal.fire({
-      title: `🔑 API Key Prefix: ${keyPrefix}...`,
+      title: `API Key Prefix: ${keyPrefix}...`,
       html: `<p style="font-size:0.85rem; color:#666;">Demi standar keamanan <strong>SHA-256 Hashed</strong>, kunci rahasia disimpan dalam bentuk hash di database. Jika Anda lupa menyalinnya, Anda dapat dengan mudah membuat API key baru kapan saja.</p>`,
       icon: 'info',
       showCancelButton: true,
-      confirmButtonText: '➕ Buat Key Baru',
+      confirmButtonText: 'Buat Key Baru',
       cancelButtonText: 'Tutup',
       confirmButtonColor: '#171717'
     }).then((res) => {
