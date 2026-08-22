@@ -27,14 +27,11 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static frontend dashboard assets
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Guarantee database initialization and seed completion before processing requests on Vercel Serverless
+// Guarantee database connection initialization before processing requests on Vercel Serverless
 let initPromise = null;
 app.use(async (req, res, next) => {
   if (!initPromise) {
-    initPromise = (async () => {
-      await db.initDb();
-      await seed();
-    })();
+    initPromise = db.initDb();
   }
   try {
     await initPromise;
