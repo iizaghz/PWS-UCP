@@ -27,6 +27,23 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static frontend dashboard assets
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Guarantee database initialization and seed completion before processing requests on Vercel Serverless
+let initPromise = null;
+app.use(async (req, res, next) => {
+  if (!initPromise) {
+    initPromise = (async () => {
+      await db.initDb();
+      await seed();
+    })();
+  }
+  try {
+    await initPromise;
+  } catch (e) {
+    console.error('[Middleware Init Error]:', e);
+  }
+  next();
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/keys', keysRoutes);
