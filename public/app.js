@@ -67,16 +67,35 @@ function setupEventListeners() {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        alert(data.error?.message || 'Authentication failed');
+        Swal.fire({
+          icon: 'error',
+          title: 'Autentikasi Gagal',
+          text: data.error?.message || 'Login / Registrasi gagal. Silakan periksa kembali data Anda.',
+          confirmButtonColor: '#171717'
+        });
         return;
       }
 
       state.token = data.data.token;
       state.user = data.data.user;
       localStorage.setItem('cinedata_jwt', state.token);
+      
+      Swal.fire({
+        icon: 'success',
+        title: state.isRegistering ? 'Registrasi Berhasil' : 'Login Berhasil',
+        text: state.isRegistering ? 'Akun developer baru berhasil dibuat.' : 'Selamat datang kembali di CineData Platform.',
+        timer: 1500,
+        showConfirmButton: false
+      });
+
       showAppScreen();
     } catch (err) {
-      alert('Network error. Please try again.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Koneksi Terputus',
+        text: 'Terjadi kesalahan jaringan. Silakan periksa koneksi internet Anda.',
+        confirmButtonColor: '#171717'
+      });
     }
   });
 
@@ -119,15 +138,34 @@ function setupEventListeners() {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        alert(data.error?.message || 'Failed to create key');
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal Membuat Key',
+          text: data.error?.message || 'Gagal membuat API Key baru.',
+          confirmButtonColor: '#171717'
+        });
         return;
       }
 
       document.getElementById('new-key-secret').value = data.data.api_key;
       document.getElementById('key-created-alert').style.display = 'block';
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'API Key Berhasil Dibuat',
+        text: 'Salin kunci rahasia Anda dan simpan di tempat aman.',
+        timer: 2000,
+        showConfirmButton: false
+      });
+
       loadKeys();
     } catch (err) {
-      alert('Error creating API key');
+      Swal.fire({
+        icon: 'error',
+        title: 'Gagal Membuat Key',
+        text: 'Terjadi kesalahan sistem saat membuat API key.',
+        confirmButtonColor: '#171717'
+      });
     }
   });
 
@@ -321,28 +359,58 @@ async function loadKeys() {
 }
 
 async function revokeKey(keyId) {
-  if (!confirm('Are you sure you want to revoke this API Key? Applications using it will lose access.')) return;
+  const result = await Swal.fire({
+    title: 'Revoke API Key?',
+    text: 'Aplikasi yang menggunakan key ini akan kehilangan akses secara langsung.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#666',
+    confirmButtonText: 'Ya, Revoke Key',
+    cancelButtonText: 'Batal'
+  });
+
+  if (!result.isConfirmed) return;
+
   try {
     const res = await fetch(`/api/keys/${keyId}/revoke`, {
       method: 'PATCH',
       headers: { 'Authorization': `Bearer ${state.token}` }
     });
-    if (res.ok) loadKeys();
+    if (res.ok) {
+      Swal.fire({ icon: 'success', title: 'API Key Direvoke', timer: 1500, showConfirmButton: false });
+      loadKeys();
+    }
   } catch (err) {
-    alert('Error revoking key');
+    Swal.fire({ icon: 'error', title: 'Gagal Revoke Key', text: 'Terjadi kesalahan saat mencabut akses key.' });
   }
 }
 
 async function deleteKey(keyId) {
-  if (!confirm('Permanently delete this API Key?')) return;
+  const result = await Swal.fire({
+    title: 'Hapus API Key?',
+    text: 'Tindakan ini permanen. Catatan API Key akan dihapus dari sistem.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#666',
+    confirmButtonText: 'Ya, Hapus',
+    cancelButtonText: 'Batal'
+  });
+
+  if (!result.isConfirmed) return;
+
   try {
     const res = await fetch(`/api/keys/${keyId}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${state.token}` }
     });
-    if (res.ok) loadKeys();
+    if (res.ok) {
+      Swal.fire({ icon: 'success', title: 'API Key Dihapus', timer: 1500, showConfirmButton: false });
+      loadKeys();
+    }
   } catch (err) {
-    alert('Error deleting key');
+    Swal.fire({ icon: 'error', title: 'Gagal Hapus Key', text: 'Terjadi kesalahan saat menghapus key.' });
   }
 }
 
@@ -354,7 +422,14 @@ function copyNewKeySecret() {
   const secretInput = document.getElementById('new-key-secret');
   secretInput.select();
   document.execCommand('copy');
-  alert('API Key secret copied to clipboard!');
+  Swal.fire({
+    toast: true,
+    position: 'top-end',
+    icon: 'success',
+    title: 'API Secret tersalin ke clipboard!',
+    showConfirmButton: false,
+    timer: 2000
+  });
 }
 
 function renderCatalog() {
