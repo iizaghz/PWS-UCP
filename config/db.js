@@ -73,6 +73,20 @@ async function initDb() {
   } else {
     console.log('[Database] Initialized in-memory fallback database engine.');
   }
+
+  // Ensure default demo user izaya@gmail.com exists in memory fallback
+  if (memoryDb.users.length === 0) {
+    const bcrypt = require('bcryptjs');
+    const passHash = bcrypt.hashSync('123456', 10);
+    memoryDb.users.push({
+      id: 1,
+      name: 'Demo Developer',
+      email: 'izaya@gmail.com',
+      password_hash: passHash,
+      created_at: new Date()
+    });
+    memoryDb.autoIds.users = 2;
+  }
 }
 
 async function query(text, params = []) {
@@ -98,8 +112,8 @@ function simulateMemoryQuery(text, params = []) {
   if (lowerSql.startsWith('select')) {
     if (lowerSql.includes('from users')) {
       let filtered = [...memoryDb.users];
-      if (lowerSql.includes('where email = $1')) {
-        filtered = filtered.filter(u => u.email.toLowerCase() === (params[0] || '').toLowerCase());
+      if (lowerSql.includes('email')) {
+        filtered = filtered.filter(u => u.email.toLowerCase() === (params[0] || '').toString().trim().toLowerCase());
       } else if (lowerSql.includes('where id = $1')) {
         filtered = filtered.filter(u => u.id === parseInt(params[0]));
       }
