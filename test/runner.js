@@ -40,8 +40,11 @@ function request(method, path, headers = {}, body = null) {
   });
 }
 
+const seed = require('../seed/seed');
+
 async function runTests() {
   console.log('Running CineData API Automated Test Suite...\n');
+  await seed();
 
   server = app.listen(PORT);
   // Wait a bit for initialization

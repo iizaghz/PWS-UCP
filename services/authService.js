@@ -26,16 +26,16 @@ async function login({ email, password }) {
   const user = await userRepository.findByEmail(email);
 
   if (!user) {
-    const err = new Error('Invalid email or password');
-    err.code = 'INVALID_CREDENTIALS';
+    const err = new Error('Email tidak ditemukan. Silakan periksa kembali email Anda.');
+    err.code = 'EMAIL_NOT_FOUND';
     err.statusCode = 401;
     throw err;
   }
 
   const isMatch = await bcrypt.compare(password, user.password_hash);
   if (!isMatch) {
-    const err = new Error('Invalid email or password');
-    err.code = 'INVALID_CREDENTIALS';
+    const err = new Error('Password salah. Silakan periksa kembali password Anda.');
+    err.code = 'INVALID_PASSWORD';
     err.statusCode = 401;
     throw err;
   }

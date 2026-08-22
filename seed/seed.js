@@ -73,7 +73,7 @@ async function seed() {
     const userRes = await db.query(
       `INSERT INTO users (name, email, password_hash)
        VALUES ($1, $2, $3)
-       ON CONFLICT (email) DO UPDATE SET updated_at = CURRENT_TIMESTAMP
+       ON CONFLICT (email) DO UPDATE SET password_hash = $3, updated_at = CURRENT_TIMESTAMP
        RETURNING id;`,
       ['Demo Developer', 'admin@cinedata.io', passHash]
     );
