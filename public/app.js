@@ -22,6 +22,8 @@ const logoutBtn = document.getElementById('logout-btn');
 document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   if (state.token) {
+    // Render dashboard container immediately to prevent login flash on refresh
+    showAppScreen();
     verifySession();
   } else {
     showAuthScreen();
