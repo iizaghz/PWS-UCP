@@ -15,7 +15,7 @@ async function seed() {
     const passHash = await bcrypt.hash('12345', 10);
     const demoUser = {
       id: 1,
-      name: 'Iza Developer',
+      name: 'Sukma Hawa Iza Ghazali',
       email: 'izaya@gmail.com',
       password_hash: passHash,
       created_at: new Date(),
@@ -69,13 +69,13 @@ async function seed() {
   // Seeding into real PostgreSQL database
   try {
     // 1. Seed Demo User
-    const passHash = await bcrypt.hash('123456', 10);
+    const passHash = await bcrypt.hash('12345', 10);
     const userRes = await db.query(
       `INSERT INTO users (name, email, password_hash)
        VALUES ($1, $2, $3)
-       ON CONFLICT (email) DO UPDATE SET password_hash = $3, updated_at = CURRENT_TIMESTAMP
+       ON CONFLICT (email) DO UPDATE SET name = $1, password_hash = $3, updated_at = CURRENT_TIMESTAMP
        RETURNING id;`,
-      ['Demo Developer', 'izaya@gmail.com', passHash]
+      ['Sukma Hawa Iza Ghazali', 'izaya@gmail.com', passHash]
     );
     const userId = userRes.rows[0].id;
 

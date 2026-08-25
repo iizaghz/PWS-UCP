@@ -82,7 +82,7 @@ async function startServer() {
     const server = app.listen(PORT, () => {
       console.log(`=======================================================`);
       console.log(`CineData API SaaS Server running on http://localhost:${PORT}`);
-      console.log(`Demo Developer Email: admin@cinedata.io | Password: password123`);
+      console.log(`Demo Developer Email: izaya@gmail.com | Password: 12345`);
       console.log(`Demo Public API Key: cd_live_demo1234567890abcdef`);
       console.log(`=======================================================`);
     });
