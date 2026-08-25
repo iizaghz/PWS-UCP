@@ -29,82 +29,88 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupEventListeners() {
-  authToggleBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    state.isRegistering = !state.isRegistering;
-    if (state.isRegistering) {
-      authTitle.textContent = 'Create an Account';
-      authSubtitle.textContent = 'Sign up for a CineData developer account';
-      nameGroup.style.display = 'block';
-      authSubmitBtn.textContent = 'Sign Up';
-      authToggleMsg.textContent = 'Already have an account?';
-      authToggleBtn.textContent = 'Sign In';
-    } else {
-      authTitle.textContent = 'Welcome Back';
-      authSubtitle.textContent = 'Log in to manage your API keys and analytics';
-      nameGroup.style.display = 'none';
-      authSubmitBtn.textContent = 'Sign In';
-      authToggleMsg.textContent = "Don't have an account?";
-      authToggleBtn.textContent = 'Sign Up';
-    }
-  });
+  if (authToggleBtn) {
+    authToggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      state.isRegistering = !state.isRegistering;
+      if (state.isRegistering) {
+        if (authTitle) authTitle.textContent = 'Create an Account';
+        if (authSubtitle) authSubtitle.textContent = 'Sign up for a CineData developer account';
+        if (nameGroup) nameGroup.style.display = 'block';
+        if (authSubmitBtn) authSubmitBtn.textContent = 'Sign Up';
+        if (authToggleMsg) authToggleMsg.textContent = 'Already have an account?';
+        if (authToggleBtn) authToggleBtn.textContent = 'Sign In';
+      } else {
+        if (authTitle) authTitle.textContent = 'Welcome Back';
+        if (authSubtitle) authSubtitle.textContent = 'Log in to manage your API keys and analytics';
+        if (nameGroup) nameGroup.style.display = 'none';
+        if (authSubmitBtn) authSubmitBtn.textContent = 'Sign In';
+        if (authToggleMsg) authToggleMsg.textContent = "Don't have an account?";
+        if (authToggleBtn) authToggleBtn.textContent = 'Sign Up';
+      }
+    });
+  }
 
-  authForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('auth-email').value;
-    const password = document.getElementById('auth-password').value;
-    const name = document.getElementById('auth-name').value;
+  if (authForm) {
+    authForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-password').value;
+      const name = document.getElementById('auth-name').value;
 
-    const endpoint = state.isRegistering ? '/api/auth/register' : '/api/auth/login';
-    const body = state.isRegistering ? { name, email, password } : { email, password };
+      const endpoint = state.isRegistering ? '/api/auth/register' : '/api/auth/login';
+      const body = state.isRegistering ? { name, email, password } : { email, password };
 
-    try {
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      const data = await res.json();
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
 
-      if (!res.ok || !data.success) {
+        if (!res.ok || !data.success) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Autentikasi Gagal',
+            text: data.error?.message || 'Login / Registrasi gagal. Silakan periksa kembali data Anda.',
+            confirmButtonColor: '#171717'
+          });
+          return;
+        }
+
+        state.token = data.data.token;
+        state.user = data.data.user;
+        localStorage.setItem('cinedata_jwt', state.token);
+        
+        Swal.fire({
+          icon: 'success',
+          title: state.isRegistering ? 'Registrasi Berhasil' : 'Login Berhasil',
+          text: state.isRegistering ? 'Akun developer baru berhasil dibuat.' : 'Selamat datang kembali di CineData Platform.',
+          timer: 1500,
+          showConfirmButton: false
+        });
+
+        showAppScreen();
+      } catch (err) {
         Swal.fire({
           icon: 'error',
-          title: 'Autentikasi Gagal',
-          text: data.error?.message || 'Login / Registrasi gagal. Silakan periksa kembali data Anda.',
+          title: 'Koneksi Terputus',
+          text: 'Terjadi kesalahan jaringan. Silakan periksa koneksi internet Anda.',
           confirmButtonColor: '#171717'
         });
-        return;
       }
+    });
+  }
 
-      state.token = data.data.token;
-      state.user = data.data.user;
-      localStorage.setItem('cinedata_jwt', state.token);
-      
-      Swal.fire({
-        icon: 'success',
-        title: state.isRegistering ? 'Registrasi Berhasil' : 'Login Berhasil',
-        text: state.isRegistering ? 'Akun developer baru berhasil dibuat.' : 'Selamat datang kembali di CineData Platform.',
-        timer: 1500,
-        showConfirmButton: false
-      });
-
-      showAppScreen();
-    } catch (err) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Koneksi Terputus',
-        text: 'Terjadi kesalahan jaringan. Silakan periksa koneksi internet Anda.',
-        confirmButtonColor: '#171717'
-      });
-    }
-  });
-
-  logoutBtn.addEventListener('click', () => {
-    state.token = null;
-    state.user = null;
-    localStorage.removeItem('cinedata_jwt');
-    showAuthScreen();
-  });
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      state.token = null;
+      state.user = null;
+      localStorage.removeItem('cinedata_jwt');
+      showAuthScreen();
+    });
+  }
 
   // Tab Navigation
   document.querySelectorAll('.nav-item').forEach(item => {
@@ -115,101 +121,118 @@ function setupEventListeners() {
   });
 
   // Keys Modal
-  document.getElementById('open-create-key-modal').addEventListener('click', () => {
-    document.getElementById('create-key-modal').classList.add('active');
-    document.getElementById('key-created-alert').style.display = 'none';
-    document.getElementById('create-key-form').reset();
-  });
+  const openKeyBtn = document.getElementById('open-create-key-modal');
+  if (openKeyBtn) {
+    openKeyBtn.addEventListener('click', () => {
+      const modal = document.getElementById('create-key-modal');
+      const alertBox = document.getElementById('key-created-alert');
+      const form = document.getElementById('create-key-form');
+      if (modal) modal.classList.add('active');
+      if (alertBox) alertBox.style.display = 'none';
+      if (form) form.reset();
+    });
+  }
 
-  document.getElementById('create-key-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = document.getElementById('key-name-input').value;
-    const environment = document.getElementById('key-env-input').value;
+  const createKeyForm = document.getElementById('create-key-form');
+  if (createKeyForm) {
+    createKeyForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('key-name-input').value;
+      const environment = document.getElementById('key-env-input').value;
 
-    try {
-      const res = await fetch('/api/keys', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${state.token}`
-        },
-        body: JSON.stringify({ name, environment })
-      });
-      const data = await res.json();
+      try {
+        const res = await fetch('/api/keys', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${state.token}`
+          },
+          body: JSON.stringify({ name, environment })
+        });
+        const data = await res.json();
 
-      if (!res.ok || !data.success) {
+        if (!res.ok || !data.success) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal Membuat Key',
+            text: data.error?.message || 'Gagal membuat API Key baru.',
+            confirmButtonColor: '#171717'
+          });
+          return;
+        }
+
+        const secretInput = document.getElementById('new-key-secret');
+        const alertBox = document.getElementById('key-created-alert');
+        if (secretInput) secretInput.value = data.data.api_key;
+        if (alertBox) alertBox.style.display = 'block';
+
+        try {
+          const keyVault = JSON.parse(localStorage.getItem('cinedata_key_vault') || '{}');
+          keyVault[data.data.id] = data.data.api_key;
+          localStorage.setItem('cinedata_key_vault', JSON.stringify(keyVault));
+        } catch (e) {}
+
+        Swal.fire({
+          icon: 'success',
+          title: 'API Key Berhasil Dibuat',
+          text: 'Salin kunci rahasia Anda dan simpan di tempat aman.',
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        loadKeys();
+      } catch (err) {
         Swal.fire({
           icon: 'error',
           title: 'Gagal Membuat Key',
-          text: data.error?.message || 'Gagal membuat API Key baru.',
+          text: 'Terjadi kesalahan sistem saat membuat API key.',
           confirmButtonColor: '#171717'
         });
-        return;
       }
-
-      document.getElementById('new-key-secret').value = data.data.api_key;
-      document.getElementById('key-created-alert').style.display = 'block';
-
-      // Save key secret in local session vault so user can retrieve it if forgotten
-      try {
-        const keyVault = JSON.parse(localStorage.getItem('cinedata_key_vault') || '{}');
-        keyVault[data.data.id] = data.data.api_key;
-        localStorage.setItem('cinedata_key_vault', JSON.stringify(keyVault));
-      } catch (e) {}
-
-      Swal.fire({
-        icon: 'success',
-        title: 'API Key Berhasil Dibuat',
-        text: 'Salin kunci rahasia Anda dan simpan di tempat aman.',
-        timer: 2000,
-        showConfirmButton: false
-      });
-
-      loadKeys();
-    } catch (err) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Gagal Membuat Key',
-        text: 'Terjadi kesalahan sistem saat membuat API key.',
-        confirmButtonColor: '#171717'
-      });
-    }
-  });
+    });
+  }
 
   // Try API Runner
-  document.getElementById('try-api-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const apiKey = document.getElementById('try-api-key').value;
-    const endpoint = document.getElementById('try-endpoint').value;
-    const queryParams = document.getElementById('try-query-params').value;
+  const tryApiForm = document.getElementById('try-api-form');
+  if (tryApiForm) {
+    tryApiForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const apiKey = document.getElementById('try-api-key').value;
+      const endpoint = document.getElementById('try-endpoint').value;
+      const queryParams = document.getElementById('try-query-params').value;
 
-    let fullUrl = endpoint;
-    if (queryParams) {
-      fullUrl += (fullUrl.includes('?') ? '&' : '?') + queryParams;
-    }
+      let fullUrl = endpoint;
+      if (queryParams) {
+        fullUrl += (fullUrl.includes('?') ? '&' : '?') + queryParams;
+      }
 
-    const startTime = performance.now();
-    try {
-      const res = await fetch(fullUrl, {
-        headers: { 'x-api-key': apiKey }
-      });
-      const endTime = performance.now();
-      const responseTime = Math.round(endTime - startTime);
-      const json = await res.json();
+      const startTime = performance.now();
+      try {
+        const res = await fetch(fullUrl, {
+          headers: { 'x-api-key': apiKey }
+        });
+        const endTime = performance.now();
+        const responseTime = Math.round(endTime - startTime);
+        const json = await res.json();
 
-      document.getElementById('try-response-section').style.display = 'block';
-      const statusBadge = document.getElementById('try-status-badge');
-      statusBadge.textContent = `HTTP ${res.status} ${res.ok ? 'OK' : 'ERROR'}`;
-      statusBadge.className = `badge ${res.ok ? 'badge-success' : 'badge-danger'}`;
-      document.getElementById('try-time').textContent = `Time: ${responseTime} ms`;
-      document.getElementById('try-response-code').textContent = JSON.stringify(json, null, 2);
+        const section = document.getElementById('try-response-section');
+        if (section) section.style.display = 'block';
+        const statusBadge = document.getElementById('try-status-badge');
+        if (statusBadge) {
+          statusBadge.textContent = `HTTP ${res.status} ${res.ok ? 'OK' : 'ERROR'}`;
+          statusBadge.className = `badge ${res.ok ? 'badge-success' : 'badge-danger'}`;
+        }
+        const timeLabel = document.getElementById('try-time');
+        if (timeLabel) timeLabel.textContent = `Time: ${responseTime} ms`;
+        const codeBox = document.getElementById('try-response-code');
+        if (codeBox) codeBox.textContent = JSON.stringify(json, null, 2);
 
-      // Refresh overview stats
-      loadOverviewStats();
-    } catch (err) {
-      alert('Error connecting to API');
-    }
-  });
+        loadOverviewStats();
+      } catch (err) {
+        alert('Error connecting to API');
+      }
+    });
+  }
 }
 
 function switchTab(tabId) {
