@@ -28,27 +28,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const authToggleBtn = document.getElementById('auth-toggle-btn');
   const authToggleMsg = document.getElementById('auth-toggle-msg');
 
-  authToggleBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    isRegistering = !isRegistering;
-    if (isRegistering) {
-      authTitle.innerHTML = '<i class="fa-solid fa-user-plus" style="color: var(--color-accent-cobalt); margin-right: 0.4rem;"></i>Buat Akun Developer';
-      authSubtitle.textContent = 'Daftarkan akun baru untuk mengelola API Key & Telemetri';
-      nameGroup.style.display = 'block';
-      authSubmitBtn.innerHTML = '<i class="fa-solid fa-user-check" style="margin-right: 0.4rem;"></i>Daftar (Sign Up)';
-      authToggleMsg.textContent = 'Sudah memiliki akun?';
-      authToggleBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket" style="margin-right: 0.25rem;"></i>Masuk (Sign In)';
-    } else {
-      authTitle.innerHTML = '<i class="fa-solid fa-shield-halved" style="color: var(--color-accent-cobalt); margin-right: 0.4rem;"></i>Developer Sign In';
-      authSubtitle.textContent = 'Akses kredensial API key, sandbox, dan analitik telemetri Anda';
-      nameGroup.style.display = 'none';
-      authSubmitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket" style="margin-right: 0.4rem;"></i>Masuk (Sign In)';
-      authToggleMsg.textContent = 'Belum memiliki akun?';
-      authToggleBtn.innerHTML = '<i class="fa-solid fa-user-plus" style="margin-right: 0.25rem;"></i>Buat Akun Baru';
-    }
-  });
+  if (authToggleBtn) {
+    authToggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      isRegistering = !isRegistering;
+      if (isRegistering) {
+        if (authTitle) authTitle.innerHTML = '<i class="fa-solid fa-user-plus" style="color: var(--color-accent-cobalt); margin-right: 0.4rem;"></i>Buat Akun Developer';
+        if (authSubtitle) authSubtitle.textContent = 'Daftarkan akun baru untuk mengelola API Key & Telemetri';
+        if (nameGroup) nameGroup.style.display = 'block';
+        if (authSubmitBtn) authSubmitBtn.innerHTML = '<i class="fa-solid fa-user-check" style="margin-right: 0.4rem;"></i>Daftar (Sign Up)';
+        if (authToggleMsg) authToggleMsg.textContent = 'Sudah memiliki akun?';
+        if (authToggleBtn) authToggleBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket" style="margin-right: 0.25rem;"></i>Masuk (Sign In)';
+      } else {
+        if (authTitle) authTitle.innerHTML = '<i class="fa-solid fa-shield-halved" style="color: var(--color-accent-cobalt); margin-right: 0.4rem;"></i>Developer Sign In';
+        if (authSubtitle) authSubtitle.textContent = 'Akses kredensial API key, sandbox, dan analitik telemetri Anda';
+        if (nameGroup) nameGroup.style.display = 'none';
+        if (authSubmitBtn) authSubmitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket" style="margin-right: 0.4rem;"></i>Masuk (Sign In)';
+        if (authToggleMsg) authToggleMsg.textContent = 'Belum memiliki akun?';
+        if (authToggleBtn) authToggleBtn.innerHTML = '<i class="fa-solid fa-user-plus" style="margin-right: 0.25rem;"></i>Buat Akun Baru';
+      }
+    });
+  }
 
-  authForm.addEventListener('submit', async (e) => {
+  if (authForm) {
+    authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('auth-email').value;
     const password = document.getElementById('auth-password').value;
@@ -100,4 +103,5 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+  }
 });
