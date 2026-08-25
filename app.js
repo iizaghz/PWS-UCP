@@ -24,6 +24,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// EJS View Engine Configuration
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 // Serve static frontend dashboard assets
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -41,18 +45,26 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// View Routes (EJS Engine)
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+app.get('/login.html', (req, res) => {
+  res.render('login');
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/keys', keysRoutes);
 app.use('/api/usage', usageRoutes);
 app.use('/api/v1', publicRoutes);
 
-// Single Page Application Fallback for Dashboard
+// View Engine Fallback for Dashboard
 app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api')) {
     return error(res, 'ENDPOINT_NOT_FOUND', `Route ${req.method} ${req.path} not found`, 404);
   }
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+  res.render('index');
 });
 
 // Centralized Error Handling Middleware
