@@ -1,11 +1,6 @@
 # CineData API — Platform SaaS Data Film
 
-[![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green.svg)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-4.19-blue.svg)](https://expressjs.com/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-336791.svg)](https://supabase.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-CineData API adalah platform API RESTful SaaS berkinerja tinggi untuk metadata film dan hiburan. Dibuat dengan Node.js, Express, dan PostgreSQL, CineData API menyediakan manajemen API key pengembang, SHA-256 secret hashing, JWT authentication, tier-based rate limiting,, dan pencatatan telemetri penggunaan secara real-time.
+CineData API adalah platform API RESTful SaaS. Dibuat dengan Node.js, Express, dan PostgreSQL, CineData API menyediakan manajemen API key pengembang, SHA-256 secret hashing, JWT authentication, tier-based rate limiting,, dan pencatatan telemetri penggunaan secara real-time.
 
 ---
 
@@ -114,7 +109,7 @@ cinedata-api/
 
 ---
 
-## Panduan Cepat & Instalasi
+## Instalasi
 
 ### 1. Clone & Install Dependencies
 ```bash
@@ -144,8 +139,8 @@ npm run dev
 Buka [http://localhost:3000](http://localhost:3000).
 
 **Kredensial Demo Bawaan:**
-- **Email Pengembang**: `admin@cinedata.io`
-- **Kata Sandi**: `password123`
+- **Email Pengembang**: `izaya@gmail.com`
+- **Kata Sandi**: `12345`
 - **API Key Demo**: `cd_live_demo1234567890abcdef`
 
 ---
@@ -234,17 +229,3 @@ Buka [http://localhost:3000](http://localhost:3000).
   }
 }
 ```
-
----
-
-## Automated Test Execution
-
-Jalankan suite pengujian integrasi:
-```bash
-npm test
-```
-Suite pengujian menguji 13 skenario end-to-end terpisah mencakup autentikasi, pembuatan API key, hashing, pembatasan laju (rate limiting), otorisasi endpoint publik, dan penanganan kesalahan (error handling).
-
----
-
-
