@@ -33,14 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       isRegistering = !isRegistering;
       if (isRegistering) {
-        if (authTitle) authTitle.innerHTML = '<i class="fa-solid fa-user-plus" style="color: var(--color-accent-cobalt); margin-right: 0.4rem;"></i>Buat Akun Developer';
         if (authSubtitle) authSubtitle.textContent = 'Daftarkan akun baru untuk mengelola API Key & Telemetri';
         if (nameGroup) nameGroup.style.display = 'block';
         if (authSubmitBtn) authSubmitBtn.innerHTML = '<i class="fa-solid fa-user-check" style="margin-right: 0.4rem;"></i>Daftar (Sign Up)';
         if (authToggleMsg) authToggleMsg.textContent = 'Sudah memiliki akun?';
         if (authToggleBtn) authToggleBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket" style="margin-right: 0.25rem;"></i>Masuk (Sign In)';
       } else {
-        if (authTitle) authTitle.innerHTML = '<i class="fa-solid fa-shield-halved" style="color: var(--color-accent-cobalt); margin-right: 0.4rem;"></i>Developer Sign In';
         if (authSubtitle) authSubtitle.textContent = 'Akses kredensial API key, sandbox, dan analitik telemetri Anda';
         if (nameGroup) nameGroup.style.display = 'none';
         if (authSubmitBtn) authSubmitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket" style="margin-right: 0.4rem;"></i>Masuk (Sign In)';
