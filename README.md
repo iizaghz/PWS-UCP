@@ -1,27 +1,27 @@
-# CineData API — Movie Data SaaS Platform
+# CineData API — Platform SaaS Data Film
 
 [![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green.svg)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-4.19-blue.svg)](https://expressjs.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-336791.svg)](https://supabase.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-CineData API is a high-performance RESTful SaaS API platform for film and entertainment metadata. Built with Node.js, Express, and PostgreSQL, CineData API provides developer API key management, SHA-256 secret hashing, JWT authentication, tier-based rate limiting, real-time usage telemetry logging, and a web dashboard built following Hallmark design principles.
+CineData API adalah platform API RESTful SaaS berkinerja tinggi untuk metadata film dan hiburan. Dibuat dengan Node.js, Express, dan PostgreSQL, CineData API menyediakan manajemen API key pengembang, SHA-256 secret hashing, JWT authentication, tier-based rate limiting,, dan pencatatan telemetri penggunaan secara real-time.
 
 ---
 
-## Key Capabilities
+## Fitur Utama
 
-- **JWT Authentication**: User registration, login, and session verification via `/api/auth/*`.
-- **API Key Management**: Create, list, revoke, and delete API keys with prefixing (`cd_live_...`), SHA-256 secret hashing, and expiration management.
-- **Movie Metadata Catalog**: Access to 185+ movies, 23 genres, 105 cast and crew members, 32 production companies, and 550+ reviews.
-- **Filtering, Sorting & Pagination**: Search movies by title/overview, filter by genre, release year, minimum rating, language, budget, and multi-field sorting (`-rating`, `popularity`, `release_date`).
-- **Rate Limiting Middleware**: Header-based authentication (`x-api-key`) with rate limits per tier (Free: 100 req/hr, Dev: 1,000 req/hr, Enterprise: 10,000 req/hr).
-- **Real-Time Telemetry & Telemetry Polling**: Automatic request logging (latency, status codes, endpoints, IP, user-agent) with live dashboard metrics polling.
-- **Hallmark Light Mode SaaS Dashboard**: Minimalist UI built with OKLCH light mode design tokens, single-family typography hierarchy, and SVG brand assets.
+- **Autentikasi JWT**: Registrasi pengguna, login, dan verifikasi sesi melalui `/api/auth/*`.
+- **Manajemen API Key**: Create, list, revoke, dan delete API keys dengan awalan (`cd_live_...`), SHA-256 secret hashing, dan expiration management.
+- **Katalog Metadata Film**: Akses ke 185+ film, 23 genre, 105 pemeran & kru, 32 perusahaan produksi, dan 550+ ulasan.
+- **Penyaringan, Pengurutan & Paginasi**: Cari film berdasarkan judul/ringkasan, filter berdasarkan genre, tahun rilis, rating minimum, bahasa, anggaran, dan pengurutan multibidang (`-rating`, `popularity`, `release_date`).
+- **Middleware Pembatas Laju (Rate Limiting)**: Autentikasi berbasis header (`x-api-key`) dengan batas permintaan per tingkatan (Free: 100 req/jam, Dev: 1.000 req/jam, Enterprise: 10.000 req/jam).
+- **Telemetri Real-Time & Polling Telemetri**: Pencatatan permintaan otomatis (latensi, kode status, endpoint, IP, user-agent) dengan pemantauan metrik live pada dashboard.
+
 
 ---
 
-## Technology Stack
+## Teknologi yang Digunakan
 
 - **Backend Framework**: Node.js, Express.js
 - **Database Layer**: PostgreSQL (Supabase) via `pg` pool connector with internal state fallback engine
@@ -31,90 +31,90 @@ CineData API is a high-performance RESTful SaaS API platform for film and entert
 
 ---
 
-## System Architecture
+## Arsitektur Sistem
 
 ```
-User / Developer Client
- └── SaaS Web Dashboard (SPA)
-      ├── JWT Authentication (/api/auth/*)
-      ├── API Key Management (/api/keys/*)
-      └── Telemetry Analytics (/api/usage/*)
+Klien Pengguna / Pengembang
+ └── Dashboard Web SaaS (SPA)
+      ├── Autentikasi JWT (/api/auth/*)
+      ├── Manajemen API Key (/api/keys/*)
+      └── Analitik Telemetri (/api/usage/*)
 
-External Application / Developer SDK
- └── HTTP Client (Header: x-api-key)
-      └── Public REST API (/api/v1/*)
-           ├── API Key & Rate Limiting Middleware
-           ├── Controllers & Service Layer
-           ├── PostgreSQL / Supabase Database Pool
-           └── Asynchronous Telemetry Logger
+Aplikasi Eksternal / SDK Pengembang
+ └── Klien HTTP (Header: x-api-key)
+      └── REST API Publik (/api/v1/*)
+           ├── Middleware API Key & Rate Limiting
+           ├── Pengontrol (Controllers) & Lapisan Layanan (Service Layer)
+           ├── Pool Basis Data PostgreSQL / Supabase
+           └── Pencatat Telemetri Asinkron (Asynchronous Telemetry Logger)
 ```
 
 ---
 
-## Repository Structure
+## Struktur Repositori
 
 ```
 cinedata-api/
-├── config/                    # Database connection pool & fallback state manager
+├── config/                    # Connection pool basis data & pengelola status fallback
 │   └── db.js
-├── controllers/               # HTTP Request handlers
+├── controllers/               # Penangan permintaan HTTP (Request handlers)
 │   ├── authController.js
 │   ├── keysController.js
 │   ├── moviesController.js
 │   └── usageController.js
-├── database/                  # Schema DDL SQL & In-Memory Fallback Engine
+├── database/                  # DDL SQL Skema & Mesin Fallback In-Memory
 │   ├── inMemoryEngine.js
 │   └── schema.sql
-├── docs/                      # Architectural diagrams (ERD, Use Case, Activity, User Flow)
+├── docs/                      # Diagram arsitektur (ERD, Use Case, Activity, User Flow)
 │   ├── activity.svg
 │   ├── api-architecture.svg
 │   ├── DIAGRAMS.md
 │   ├── erd.svg
 │   ├── usecase.svg
 │   └── userflow.svg
-├── middleware/                # JWT & API Key authentication middlewares
+├── middleware/                # Middleware autentikasi JWT & API Key
 │   ├── apiKeyMiddleware.js
 │   └── authMiddleware.js
-├── public/                    # Frontend Web Dashboard Assets
+├── public/                    # Aset Dashboard Web Frontend
 │   ├── app.js
 │   ├── index.html
 │   ├── logo.svg
 │   └── style.css
-├── repositories/              # Data repository layer
+├── repositories/              # Lapisan repositori data
 │   ├── keysRepository.js
 │   ├── moviesRepository.js
 │   ├── usageRepository.js
 │   └── userRepository.js
-├── routes/                    # Express routing definitions
+├── routes/                    # Definisi rute Express
 │   ├── authRoutes.js
 │   ├── keysRoutes.js
 │   ├── publicRoutes.js
 │   └── usageRoutes.js
-├── seed/                      # Database seed scripts & dataset
+├── seed/                      # Skrip seeder & dataset basis data
 │   ├── seed.js
 │   └── seedData.js
-├── services/                  # Business logic services
+├── services/                  # Layanan logika bisnis
 │   ├── authService.js
 │   ├── keysService.js
 │   ├── moviesService.js
 │   └── usageService.js
-├── test/                      # Integration test runner
+├── test/                      # Penguji integrasi (Integration test runner)
 │   └── runner.js
-├── utils/                     # Response helper & JWT utilities
+├── utils/                     # Pembantu respons & utilitas JWT
 │   ├── auth.js
 │   └── response.js
-├── .env.example               # Environment variables template
-├── .gitignore                 # Git ignore specification
-├── app.js                     # Root Express server entrypoint
-├── package.json               # Package configuration & scripts
-├── PRD.md                     # Product Requirements Document
-├── README.md                  # Project documentation
-└── vercel.json                # Vercel deployment configuration
+├── .env.example               # Templat variabel lingkungan (environment variables)
+├── .gitignore                 # Spesifikasi pengecualian Git
+├── app.js                     # Berkas utama server Express
+├── package.json               # Konfigurasi paket & skrip
+├── PRD.md                     # Dokumen Persyaratan Produk (Product Requirements Document)
+├── README.md                  # Dokumentasi proyek
+└── vercel.json                # Konfigurasi penggelaran Vercel
 ```
 
 ---
 
-## Quick Start & Installation
+## Panduan Cepat & Instalasi
 
 ### 1. Clone & Install Dependencies
 ```bash
@@ -122,7 +122,7 @@ npm install
 ```
 
 ### 2. Environment Setup
-Copy the environment variables template to `.env`:
+Copy  environment variables template ke .env::
 ```env
 PORT=3000
 NODE_ENV=development
@@ -132,7 +132,7 @@ API_KEY_SECRET=cinedata_api_key_hmac_secret_2026
 ```
 
 ### 3. Database Seeding
-Populate the database with demo datasets (185+ movies, 23 genres, 105 cast members, 32 companies, 550+ reviews):
+Isi basis data dengan dataset demo (185+ film, 23 genre, 105 pemeran, 32 perusahaan, 550+ ulasan):
 ```bash
 npm run seed
 ```
@@ -141,58 +141,58 @@ npm run seed
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Buka [http://localhost:3000](http://localhost:3000).
 
-**Default Demo Credentials:**
-- **Developer Email**: `admin@cinedata.io`
-- **Password**: `password123`
-- **Demo API Key**: `cd_live_demo1234567890abcdef`
-
----
-
-## API Endpoint Reference
-
-### Authentication Endpoints (JWT Required for `/me`)
-| Method | Endpoint | Description |
-|---|---|---|
-| `POST` | `/api/auth/register` | Register a new developer account |
-| `POST` | `/api/auth/login` | Authenticate developer and obtain JWT session token |
-| `GET` | `/api/auth/me` | Retrieve authenticated developer profile |
-| `POST` | `/api/auth/logout` | Terminate developer session |
-
-### API Key Management (Requires Header `Authorization: Bearer <token>`)
-| Method | Endpoint | Description |
-|---|---|---|
-| `POST` | `/api/keys` | Generate a new API Key (returns secret raw key once) |
-| `GET` | `/api/keys` | List all API Keys for authenticated developer |
-| `GET` | `/api/keys/:id` | Get specific API Key metadata |
-| `PATCH` | `/api/keys/:id/revoke` | Revoke active API Key |
-| `DELETE` | `/api/keys/:id` | Permanently delete API Key record |
-
-### Public Movie Metadata API (Requires Header `x-api-key: cd_live_...`)
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/v1/movies` | List movies with pagination, filtering, and sorting |
-| `GET` | `/api/v1/movies/:id` | Fetch detailed movie metadata by ID |
-| `GET` | `/api/v1/movies/slug/:slug` | Fetch movie detail by URL slug |
-| `GET` | `/api/v1/movies/:id/cast` | Fetch cast list for specified movie |
-| `GET` | `/api/v1/movies/:id/reviews` | Fetch reviews for specified movie |
-| `GET` | `/api/v1/genres` | List all movie genres |
-| `GET` | `/api/v1/genres/:id` | Get genre metadata and associated movie count |
-| `GET` | `/api/v1/people` | List actors, directors, and crew members |
-| `GET` | `/api/v1/people/:id` | Fetch person details and filmography |
-| `GET` | `/api/v1/companies` | List major film production companies |
+**Kredensial Demo Bawaan:**
+- **Email Pengembang**: `admin@cinedata.io`
+- **Kata Sandi**: `password123`
+- **API Key Demo**: `cd_live_demo1234567890abcdef`
 
 ---
 
-## Query Filtering & Sorting Examples
+## Referensi Endpoint API
+
+### Authentication Endpoints (JWT Required for /me)
+| Metode | Endpoint | Deskripsi |
+|---|---|---|
+| `POST` | `/api/auth/register` | Mendaftarkan akun pengembang baru |
+| `POST` | `/api/auth/login` | Otentikasi pengembang dan dapatkan token sesi JWT |
+| `GET` | `/api/auth/me` | Mengambil profil pengembang yang terautentikasi |
+| `POST` | `/api/auth/logout` | Mengakhiri sesi pengembang |
+
+### API Key Management (Requires Header Authorization: Bearer <token>)
+| Metode | Endpoint | Deskripsi |
+|---|---|---|
+| `POST` | `/api/keys` | Membuat API Key baru (mengembalikan rahasia mentah sekali saja) |
+| `GET` | `/api/keys` | Menampilkan daftar semua API Key milik pengembang |
+| `GET` | `/api/keys/:id` | Mengambil metadata API Key spesifik |
+| `PATCH` | `/api/keys/:id/revoke` | Mencabut (revoke) API Key aktif |
+| `DELETE` | `/api/keys/:id` | Menghapus catatan API Key secara permanen |
+
+### Public Movie Metadata API (Requires Header x-api-key: cd_live_...)
+| Metode | Endpoint | Deskripsi |
+|---|---|---|
+| `GET` | `/api/v1/movies` | Menampilkan daftar film dengan paginasi, filter, dan pengurutan |
+| `GET` | `/api/v1/movies/:id` | Mengambil rincian metadata film berdasarkan ID |
+| `GET` | `/api/v1/movies/slug/:slug` | Mengambil rincian film berdasarkan URL slug |
+| `GET` | `/api/v1/movies/:id/cast` | Mengambil daftar pemeran untuk film tertentu |
+| `GET` | `/api/v1/movies/:id/reviews` | Mengambil daftar ulasan untuk film tertentu |
+| `GET` | `/api/v1/genres` | Menampilkan daftar semua genre film |
+| `GET` | `/api/v1/genres/:id` | Mengambil metadata genre dan jumlah film terkait |
+| `GET` | `/api/v1/people` | Menampilkan daftar aktor, sutradara, dan kru |
+| `GET` | `/api/v1/people/:id` | Mengambil rincian orang dan filmografinya |
+| `GET` | `/api/v1/companies` | Menampilkan daftar perusahaan produksi film utama |
+
+---
+
+## Contoh Query Filtering & Sorting
 
 - **Search by Query**: `GET /api/v1/movies?search=nolan`
-- **Filter by Genre**: `GET /api/v1/movies?genre=action`
-- **Filter by Release Year**: `GET /api/v1/movies?year=2023`
-- **Filter by Minimum Rating**: `GET /api/v1/movies?rating_min=8.5`
-- **Sorting**: `GET /api/v1/movies?sort=-rating` (descending) or `?sort=release_date`
-- **Pagination**: `GET /api/v1/movies?page=1&limit=10`
+- **Filter Berdasarkan Genre**: `GET /api/v1/movies?genre=action`
+- **Filter Berdasarkan Tahun Rilis**: `GET /api/v1/movies?year=2023`
+- **Filter Berdasarkan Rating Minimum**: `GET /api/v1/movies?rating_min=8.5`
+- **Sorting**: `GET /api/v1/movies?sort=-rating` (menurun) atau `?sort=release_date`
+- **Paginasi**: `GET /api/v1/movies?page=1&limit=10`
 
 ---
 
@@ -239,14 +239,12 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Automated Test Execution
 
-Execute the integration test suite:
+Jalankan suite pengujian integrasi:
 ```bash
 npm test
 ```
-The test suite validates 13 distinct end-to-end scenarios covering authentication, API key generation, hashing, rate limiting, public endpoint authorization, and error handling.
+Suite pengujian menguji 13 skenario end-to-end terpisah mencakup autentikasi, pembuatan API key, hashing, pembatasan laju (rate limiting), otorisasi endpoint publik, dan penanganan kesalahan (error handling).
 
 ---
 
-## License
 
-This project is licensed under the MIT License.
