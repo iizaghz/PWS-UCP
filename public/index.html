@@ -4,46 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CineData API · High-Performance Movie Metadata SaaS</title>
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
   <link rel="stylesheet" href="/style.css">
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
-  <!-- Auth Screen (Login / Register) -->
-  <div id="auth-screen" class="auth-wrapper" style="display: none;">
-    <div class="auth-card">
-      <div class="brand-logo" style="justify-content: center; margin-bottom: 1.5rem;">
-        <img src="/logo.svg" alt="CineData Logo" style="width: 34px; height: 34px; border-radius: 8px;">
-        <span class="brand-title" style="font-size: 1.35rem;">CineData Platform</span>
-      </div>
-      <h2 id="auth-title" class="auth-title">Developer Sign In</h2>
-      <p id="auth-subtitle" class="auth-subtitle">Access your API credentials, sandbox, and telemetry</p>
-
-      <form id="auth-form">
-        <div class="form-group" id="name-group" style="display: none;">
-          <label class="form-label">Full Name</label>
-          <input type="text" id="auth-name" class="form-input" placeholder="Developer Name">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" id="auth-email" class="form-input" placeholder="developer@example.com" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Password</label>
-          <input type="password" id="auth-password" class="form-input" placeholder="Enter password" required>
-        </div>
-        <button type="submit" id="auth-submit-btn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 0.65rem; margin-top: 1rem;">Authenticate</button>
-      </form>
-
-      <div style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--color-text-muted);">
-        <span id="auth-toggle-msg">Don't have an account?</span>
-        <a href="#" id="auth-toggle-btn" style="font-weight: 600; margin-left: 0.25rem;">Create Account</a>
-      </div>
-    </div>
-  </div>
-
   <!-- Main Dashboard Container -->
-  <div id="app-screen" class="app-container" style="display: none;">
+  <div id="app-screen" class="app-container" style="display: flex;">
     <!-- N3 Side-Rail Sidebar -->
     <aside class="sidebar">
       <div class="brand-logo">
@@ -53,27 +23,27 @@
 
       <ul class="nav-list">
         <li class="nav-item active" data-tab="tab-overview">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          <i class="fa-solid fa-chart-line" style="margin-right: 0.6rem; font-size: 1rem; width: 18px; text-align: center;"></i>
           Overview
         </li>
         <li class="nav-item" data-tab="tab-keys">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+          <i class="fa-solid fa-key" style="margin-right: 0.6rem; font-size: 1rem; width: 18px; text-align: center;"></i>
           API Keys
         </li>
         <li class="nav-item" data-tab="tab-catalog">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+          <i class="fa-solid fa-layer-group" style="margin-right: 0.6rem; font-size: 1rem; width: 18px; text-align: center;"></i>
           Endpoints
         </li>
         <li class="nav-item" data-tab="tab-tryapi">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <i class="fa-solid fa-terminal" style="margin-right: 0.6rem; font-size: 1rem; width: 18px; text-align: center;"></i>
           Playground
         </li>
         <li class="nav-item" data-tab="tab-docs">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <i class="fa-solid fa-book" style="margin-right: 0.6rem; font-size: 1rem; width: 18px; text-align: center;"></i>
           SDK & Docs
         </li>
         <li class="nav-item" data-tab="tab-profile">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          <i class="fa-solid fa-user-gear" style="margin-right: 0.6rem; font-size: 1rem; width: 18px; text-align: center;"></i>
           Account
         </li>
       </ul>
@@ -86,7 +56,9 @@
             <span id="user-display-email" class="user-email">dev@cinedata.io</span>
           </div>
         </div>
-        <button id="logout-btn" class="btn btn-danger" style="width: 100%; justify-content: center; margin-top: 0.75rem;">Sign Out</button>
+        <button id="logout-btn" class="btn btn-danger" style="width: 100%; justify-content: center; margin-top: 0.75rem;">
+          <i class="fa-solid fa-right-from-bracket" style="margin-right: 0.4rem;"></i>Sign Out
+        </button>
       </div>
     </aside>
 
@@ -106,7 +78,7 @@
             </div>
             <p class="page-subtitle">Real-time API traffic metrics, latency, and operational status</p>
           </div>
-          <button class="btn btn-primary" onclick="switchTab('tab-keys')">+ Create API Key</button>
+          <button class="btn btn-primary" onclick="switchTab('tab-keys')"><i class="fa-solid fa-plus" style="margin-right: 0.35rem;"></i>Create API Key</button>
         </div>
 
         <div class="grid-stats">
@@ -161,7 +133,7 @@
             <h1 class="page-title">API Keys Vault</h1>
             <p class="page-subtitle">Manage SHA-256 hashed secret keys for API authentication</p>
           </div>
-          <button class="btn btn-primary" id="open-create-key-modal">+ Generate Secret Key</button>
+          <button class="btn btn-primary" id="open-create-key-modal"><i class="fa-solid fa-key" style="margin-right: 0.35rem;"></i>Generate Secret Key</button>
         </div>
 
         <div class="card-box">
@@ -238,7 +210,7 @@
               <input type="text" id="try-query-params" class="form-input" placeholder="search=nolan&sort=-rating&limit=5">
             </div>
 
-            <button type="submit" class="btn btn-primary">Execute Request</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane" style="margin-right: 0.4rem;"></i>Execute Request</button>
           </form>
 
           <div id="try-response-section" style="margin-top: 1.5rem; display: none;">

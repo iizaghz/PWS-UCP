@@ -22,11 +22,10 @@ const logoutBtn = document.getElementById('logout-btn');
 document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   if (state.token) {
-    // Render dashboard container immediately to prevent login flash on refresh
     showAppScreen();
     verifySession();
   } else {
-    showAuthScreen();
+    window.location.href = '/login.html';
   }
 });
 
@@ -272,13 +271,12 @@ function stopRealTimePolling() {
 
 function showAuthScreen() {
   stopRealTimePolling();
-  authScreen.style.display = 'flex';
-  appScreen.style.display = 'none';
+  window.location.href = '/login.html';
 }
 
 function showAppScreen() {
-  authScreen.style.display = 'none';
-  appScreen.style.display = 'flex';
+  if (authScreen) authScreen.style.display = 'none';
+  if (appScreen) appScreen.style.display = 'flex';
 
   if (state.user) {
     document.getElementById('user-avatar').textContent = state.user.name.charAt(0).toUpperCase();
@@ -357,9 +355,9 @@ async function loadKeys() {
         <td style="font-size:0.8rem; color:var(--text-dim);">${k.expires_at ? new Date(k.expires_at).toLocaleDateString() : 'Never'}</td>
         <td style="font-size:0.8rem; color:var(--text-dim);">${k.last_used_at ? new Date(k.last_used_at).toLocaleString() : 'Never'}</td>
         <td style="display: flex; gap: 0.35rem; align-items: center;">
-          <button class="btn btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="viewOrCopyKey('${k.id}', '${k.name.replace(/'/g, "\\'")}', '${k.key_prefix}')">Copy Key</button>
-          ${k.is_active ? `<button class="btn btn-danger" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="revokeKey(${k.id})">Revoke</button>` : ''}
-          <button class="btn btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="deleteKey(${k.id})">Delete</button>
+          <button class="btn btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="viewOrCopyKey('${k.id}', '${k.name.replace(/'/g, "\\'")}', '${k.key_prefix}')"><i class="fa-solid fa-copy" style="margin-right: 0.25rem;"></i>Copy Key</button>
+          ${k.is_active ? `<button class="btn btn-danger" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="revokeKey(${k.id})"><i class="fa-solid fa-ban" style="margin-right: 0.25rem;"></i>Revoke</button>` : ''}
+          <button class="btn btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="deleteKey(${k.id})"><i class="fa-solid fa-trash" style="margin-right: 0.25rem;"></i>Delete</button>
         </td>
       </tr>
     `).join('');
