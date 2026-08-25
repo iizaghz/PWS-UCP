@@ -1,11 +1,21 @@
 // Dedicated Login & Register Page Controller
 
 document.addEventListener('DOMContentLoaded', () => {
-  // If user is already logged in, redirect to dashboard
+  // If user is already logged in with valid token, redirect to dashboard
   const token = localStorage.getItem('cinedata_jwt');
   if (token) {
-    window.location.href = '/index.html';
-    return;
+    fetch('/api/auth/me', { headers: { 'Authorization': `Bearer ${token}` } })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = '/';
+        } else {
+          localStorage.removeItem('cinedata_jwt');
+        }
+      })
+      .catch(() => {
+        localStorage.removeItem('cinedata_jwt');
+      });
   }
 
   let isRegistering = false;
@@ -74,11 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
         timer: 1200,
         showConfirmButton: false
       }).then(() => {
-        window.location.href = '/index.html';
+        window.location.href = '/';
       });
 
       setTimeout(() => {
-        window.location.href = '/index.html';
+        window.location.href = '/';
       }, 1200);
 
     } catch (err) {

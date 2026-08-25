@@ -22,10 +22,9 @@ const logoutBtn = document.getElementById('logout-btn');
 document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   if (state.token) {
-    showAppScreen();
     verifySession();
   } else {
-    window.location.href = '/login.html';
+    window.location.href = '/login';
   }
 });
 
@@ -271,7 +270,7 @@ function stopRealTimePolling() {
 
 function showAuthScreen() {
   stopRealTimePolling();
-  window.location.href = '/login.html';
+  window.location.href = '/login';
 }
 
 function showAppScreen() {
