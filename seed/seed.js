@@ -12,7 +12,7 @@ async function seed() {
   if (!isPg) {
     console.log('[Seed] Seeding into in-memory engine fallback...');
     // Seed in memory
-    const passHash = await bcrypt.hash('123456', 10);
+    const passHash = await bcrypt.hash('12345', 10);
     const demoUser = {
       id: 1,
       name: 'Iza Developer',
